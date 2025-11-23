@@ -21,8 +21,8 @@
     {# Site title #}
     {% set current_path = current_path | default(value="/") %}
     {% if current_path == "/" %}
-        <title>{{ post_macros::site_title() }}</title>
-        {% if not page_has_og_title %}<meta property="og:title" content="{{ post_macros::site_title() }}" />{% endif %}
+        <title>{{ section.title | default(value=config.title) }}</title>
+        {% if not page_has_og_title %}<meta property="og:title" content="{{ section.title | default(value=config.title) }}" />{% endif %}
 
     {% else %}
         <title>
@@ -44,7 +44,9 @@
     {% endif %}
 
     {% if not page_has_og_description %}
-        {% if page.description %}
+        {% if section.description %}
+            <meta property="og:description" content="{{ section.description }}" />
+        {% elif page.description %}
             <meta property="og:description" content="{{ page.description }}" />
         {% elif config.description %}
             <meta property="og:description" content="{{ config.description }}" />
